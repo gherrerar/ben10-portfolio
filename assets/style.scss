@@ -1,0 +1,516 @@
+@use 'sass:list';
+
+$clr-darkgreen: #102524;
+$clr-green: #3fd11b;
+$clr-lightgreen: #6bff66;
+$clr-white: #edfefd;
+$clr-black: #000;
+$trnstn-speed: 200ms;
+
+@font-face {
+    font-family: 'Timelord Solid';
+    src: url(fonts/cctimelord-solid.ttf);
+    font-weight: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+}
+
+:root {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    scroll-behavior: smooth;
+    --aside_wdth: 30rem;
+}
+
+body {
+    background-color: $clr-darkgreen;
+    background-image: url(images/bkg_texture.webp);
+    background-blend-mode: multiply;
+    color: $clr-white;
+}
+.container {
+    padding: 10vh max(6vw, 2rem);
+}
+
+h1, h2, h3 {
+    font-family: 'Timelord Solid';
+    font-weight: normal;
+}
+img {
+    display: block;
+}
+.btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+.highlight {
+    display: inline-block;
+    background-color: rgba($clr-white, .5);
+    background-image: linear-gradient(120deg, transparent, $clr-green 40%, $clr-green 50%, transparent 52%);
+    background-clip: text;
+    background-size: 300%;
+    background-position: 100%;
+    font-weight: bold;
+    color: transparent;
+    cursor: default;
+
+    &:hover {
+        animation: shine $trnstn-speed*2.3 ease-in forwards;
+    }
+
+    @keyframes shine {
+        100% {
+            background-position: -50%;
+        }
+    }
+}
+
+.sidebar-toggle {
+    display: none;
+
+     img {
+        width: 3rem;
+     }
+}
+
+// ====================
+// Sidebar
+// ====================
+
+aside {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 2rem 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    width: var(--aside_wdth);
+    height: 100vh;
+    background-color: $clr-black;
+    text-align: center;
+
+    ~ * {
+        margin-left: var(--aside_wdth);
+    }
+
+    .sidebar-toggle {
+        position: absolute;
+        inset: 2rem 2rem auto auto;
+    }
+}
+
+.profile-name {
+    font-size: 3rem;
+    letter-spacing: .1rem;
+    
+    + h2 {
+        margin-top: 1.5rem;
+        font-size: 2rem;
+        text-transform: uppercase;
+    }
+}
+
+.profile-title {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    font-size: 1.6rem;
+    word-break: break-word;
+    line-height: calc(1ex / 0.42);
+    border-top: .1rem solid rgba($clr-white, .3);
+    opacity: .6;
+}
+
+.profile-img {
+    position: relative;
+    clip-path: polygon(0% 0%,0% 66.667%,0% 66.667%,0.654% 72.073%,
+                        2.549% 77.203%,5.581% 81.985%,9.647% 86.353%,
+                        14.645% 90.237%,20.471% 93.569%,27.022% 96.279%,
+                        34.196% 98.301%,41.89% 99.564%,50% 100%,50% 100%,
+                        58.11% 99.564%,65.804% 98.301%,72.978% 96.279%,
+                        79.529% 93.569%,85.355% 90.237%,90.353% 86.353%,
+                        94.419% 81.985%,97.451% 77.203%,99.346% 72.073%,
+                        100% 66.667%,100% 0%,0% 0%);
+    overflow: hidden;
+    transform-origin: 50% 75%;
+    transition: scale $trnstn-speed*1.5 ease-in-out;
+    user-select: none;
+    cursor: pointer;
+
+    &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        aspect-ratio: 1;
+        background-image: url(images/image_background.webp);
+        background-position: center;
+        background-size: cover;
+        border-radius: 100vmax;
+        z-index: -1;
+    }
+
+    img {
+        width: 100%;
+        scale: 1.5;
+        translate: 0 11rem;
+        transition: all $trnstn-speed*1.2 cubic-bezier(.1,0,.54,.98);
+        transition-delay: $trnstn-speed*.2;
+    }
+    &:hover {
+        scale: 1.1;
+
+        img {
+            translate: 0 9.75rem;
+            scale: 1.6;
+        }
+    }
+}
+
+// ====================
+// Navbar
+// ====================
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+.navbar {
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba($clr-black, .2);
+    backdrop-filter: blur(2rem);
+    user-select: none;
+
+    &__list {
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        gap: 2rem;
+        font-size: clamp(1.2rem, 0.9rem + 0.24999999999999997vw, 1.5rem);
+        list-style-type: none;
+
+    }
+    &__list-item > a {
+        text-decoration: none;
+        color: $clr-white;
+    }
+    
+    > a {
+        margin-right: auto;
+    }
+    
+    .sidebar-toggle {
+        margin-right: 1rem;
+        padding-right: 1rem;
+        border-right: .1rem solid rgba($clr-white, .3);
+    }
+
+    @media screen and (max-width: 362px) {
+        & {
+            padding-inline: 1rem;
+        }
+        &__list {
+            gap: 1rem;
+        }
+        > a {
+            display: none;
+        }
+    }
+}
+.logo {
+    width: 3rem;
+}
+
+// ====================
+// Main - Sobre
+// ====================
+
+.title {
+    margin-bottom: 4rem;
+    font-size: clamp(2rem, 1.4rem + 1.3333333333333335vw, 3rem);
+    text-transform: uppercase;
+}
+.about {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 3rem;
+
+    &__text {
+        flex-basis: 50%;
+        font-size: clamp(1.6rem, 1.36rem + 0.5333333333333332vw, 2rem);
+        line-height: calc(1ex / 0.32);
+        text-wrap: pretty;
+
+        @media screen and (max-width: 1128px) {
+            & {
+                flex-basis: auto;
+            }
+        }
+
+        p:first-child {
+            margin-bottom: 2rem;
+        }
+    }
+    &__img-grid {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        flex: 1;
+        gap: .75rem;
+        border-radius: 1.5rem;
+        overflow: hidden;
+
+        img {
+            flex: 1;
+            width: 30%;
+            object-fit: cover;
+        }
+    }
+}
+
+@media screen and (max-width: 665px) {
+    body:has(aside.opened) {
+        overflow: hidden;
+    }
+    aside {
+        padding-inline: clamp(5rem, 22vw, 20rem);
+        width: 100%;
+        height: 100%;
+        transform: translate3d(-100%, 0, 0);
+        z-index: 1000;
+        transition: transform $trnstn-speed*2 cubic-bezier(.92,.14,.11,.86);
+
+        ~ * {
+            margin-left: 0;
+        }
+        &.opened {
+            transform: none;
+        }
+    }
+    .sidebar-toggle {
+        display: block;
+    }
+}
+
+// ====================
+// Main - Habilidades
+// ====================
+
+section#habilidades {
+    clip-path: polygon(0 0, 100% 9%, 100% 94%, 0% 100%);
+    max-height: 110vh;
+    background-color: rgba($clr-black, .3);
+}
+.skills {
+    
+    &__slider {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+
+    }
+    &__slider-frame {
+        $aliens-list: 'aquatico', 'besta', 'chama', 'diamante', 
+                        'fantasmatico', 'insectoide', 'massa_cinzenta', 
+                        'quatro_bracos', 'ultra_t', 'xlr8';
+        position: relative;
+        margin-inline: auto;
+        display: none;
+        width: clamp(14rem, 25vw - 7vh, 47rem);
+
+        &.active {
+            display: block;
+            transform: translateY(1rem);
+            opacity: 0;
+            animation: fadeIn $trnstn-speed*2 $trnstn-speed*.5 ease forwards;
+
+            &::after {
+                animation: unmask $trnstn-speed*2 $trnstn-speed*4 forwards;
+            }
+        }
+        @keyframes fadeIn {
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        @keyframes unmask {
+            @for $i from 1 through 120 {
+                $p: $i/1.2 + 0%;
+                #{$p} {
+                    --s: #{$p*1.2};
+                }
+            }
+        }
+        
+        img {
+            width: 100%;
+        }
+        
+        &::after {
+            --s: 0%;
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle at 50% 100%, darken($clr-green, 10%) 0, $clr-green 100%);
+            mask-size: cover;
+            mask-composite: subtract;
+            opacity: .8;
+        }
+        @for $i from 1 through length($aliens-list) {
+            &:nth-child(#{$i})::after {
+                mask-image: url('images/aliens/#{nth($aliens-list, $i)}.webp'), 
+                            radial-gradient(circle at 50% 50%, $clr-black calc(var(--s) - 20%), transparent var(--s))
+            }
+        }
+    }
+    &__watch {
+        position: relative;
+        margin-inline: auto;
+        display: block;
+        width: clamp(10rem, 30vw - 5vh, 35rem);
+        
+        img {
+            width: 100%;
+            rotate: -27deg;
+        }
+        &::before, &::after {
+            content: '';
+            position: absolute;
+            inset-inline: 0;
+            margin-inline: auto;
+        }
+        &::before {
+            bottom: 50%;
+            width: clamp(10rem, 50%, 18rem);
+            height: clamp(19rem, 150% - 5vh, 46rem);
+            background-image: linear-gradient(transparent, $clr-green, darken($clr-green, 10%));
+            transform: perspective(20rem) rotateX(-15deg);
+            filter: blur(1rem);
+            opacity: .7;
+            z-index: -1;
+        }
+        &::after {
+            top: 0;
+            width: 50%;
+            height: 50%;
+            background-color: $clr-green;
+            border-radius: 50%;
+            filter: blur(5rem);
+        }
+    }
+
+    &__slider-btn {
+        position: absolute;
+        inset-inline: clamp(0rem, 5vw, 10rem);
+        padding: min(2vw, 2rem);
+        aspect-ratio: 1;
+        backdrop-filter: blur(.5rem);
+        border-radius: 2rem;
+        
+        img {
+            width: clamp(3rem, 3vw, 6rem);
+        }
+    }
+    .prev-btn {
+        right: auto;
+    }
+    .next-btn {
+        left: auto;
+    }
+}
+
+// ====================
+// Main - Experiencia
+// ====================
+
+section#experiencia > .title {
+    text-align: center;
+}
+.experience {
+    font-size: clamp(1.6rem, 1.36rem + 0.5333333333333332vw, 2rem);
+    text-align: center;
+    line-height: calc(1ex / 0.36);
+    text-wrap: pretty;
+
+    &__list {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+        gap: 2rem;
+        list-style-type: none;
+    }
+    &__list-item {
+        position: relative;
+        padding: 3rem 2rem;
+        min-height: 20rem;
+        background-color: rgba($clr-black, .2);
+        background-image: radial-gradient(circle at 50% 100%, rgba($clr-lightgreen, .2) 0, transparent 50%);
+        border-radius: 2rem;
+        border: .1rem solid rgba($clr-white, .1);
+        cursor: pointer;
+        transition: border $trnstn-speed ease-in-out;
+        
+        &:hover {
+            border-color: rgba($clr-lightgreen, .5);
+        }
+
+        @media screen and (max-width: 931px) {
+            & {
+                padding-inline: 4rem;
+            }
+        }
+    }
+
+    &__item-icon {
+        margin-inline: auto;
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        width: 5rem;
+        aspect-ratio: 1;
+        background-color: rgba($clr-white, .1);
+        border-radius: 1rem;
+
+        svg {
+            display: block;
+        }
+    }
+}
+
+// ====================
+// Footer
+// ====================
+
+footer.container {
+    padding-block: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.5rem;
+    background-color: $clr-black;
+
+    address {
+        display: flex;
+        gap: 1rem;
+    }
+    a > img {
+        width: 3rem;
+    }
+}
