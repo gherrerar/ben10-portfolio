@@ -24,6 +24,14 @@ body {
   color: #edfefd;
 }
 
+::-moz-selection {
+  background-color: rgba(107, 255, 102, 0.2);
+}
+
+::selection {
+  background-color: rgba(107, 255, 102, 0.2);
+}
+
 .container {
   padding: 10vh max(6vw, 2rem);
 }
@@ -35,6 +43,9 @@ h1, h2, h3 {
 
 img {
   display: block;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 
 .btn {

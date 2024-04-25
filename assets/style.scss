@@ -33,6 +33,9 @@ body {
     background-blend-mode: multiply;
     color: $clr-white;
 }
+::selection {
+    background-color: rgba($clr-lightgreen, .2);
+}
 .container {
     padding: 10vh max(6vw, 2rem);
 }
@@ -43,6 +46,7 @@ h1, h2, h3 {
 }
 img {
     display: block;
+    user-select: none;
 }
 .btn {
     background-color: transparent;
